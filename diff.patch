@@ -1,5 +1,5 @@
---- tsdk-core/api/dirp_api.h	2021-02-20 23:26:44.000000000 +1000
-+++ tsdk-core/api/dirp_api_patched.h	2021-05-18 21:49:21.000000000 +1000
+--- tsdk-core/api/dirp_api.h	2021-10-29 06:44:14.000000000 +1000
++++ tsdk-core/api/dirp_api_patched.h	2021-12-08 23:28:20.000000000 +1000
 @@ -29,6 +29,7 @@
  #define _DIRP_API_H_
  
@@ -7,13 +7,4 @@
 +#include <math.h>
  
  #ifdef _WIN32
- #define dllexport __declspec(dllexport)
-@@ -186,7 +187,7 @@
- #pragma pack(pop)
- 
- /**
-- * 
-+ *
-  * @brief       Create a new DIRP handle with specified R-JPEG binary data
-  * @details     The R-JPEG binary data buffer must remain valid until the handle is destroyed.
-  *              The DIRP API library will create some alloc buffers for inner usage.
+     #define dllexport __declspec(dllexport)
