@@ -1,5 +1,7 @@
 # DJI Thermal SDK Docker image
 
+Dockerized [DJI Thermal SDK](https://www.dji.com/downloads/softwares/dji-thermal-sdk), which includes example tools for processing and measuring some DJI thermal images.
+
 ## Installation
 
 ```sh
