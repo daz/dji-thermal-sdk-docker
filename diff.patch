@@ -1,10 +1,11 @@
---- tsdk-core/api/dirp_api.h	2021-10-29 06:44:14.000000000 +1000
-+++ tsdk-core/api/dirp_api_patched.h	2021-12-08 23:28:20.000000000 +1000
+diff -Naur dji_thermal_sdk_v1.3_20220517/sample/dji_ircm.cpp dji_thermal_sdk_v1.3_20220517_patched/sample/dji_ircm.cpp
+--- dji_thermal_sdk_v1.3_20220517/sample/dji_ircm.cpp	2022-05-17 19:38:50.000000000 +1000
++++ dji_thermal_sdk_v1.3_20220517_patched/sample/dji_ircm.cpp	2022-06-12 00:09:54.000000000 +1000
 @@ -29,6 +29,7 @@
- #define _DIRP_API_H_
- 
- #include "stdint.h"
+ #include <iterator>
+ #include <vector>
+ #include <string.h>
 +#include <math.h>
+ #include <sys/stat.h>
  
- #ifdef _WIN32
-     #define dllexport __declspec(dllexport)
+ #include "dirp_api.h"
