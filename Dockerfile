@@ -1,6 +1,7 @@
 FROM gcc:12
 
 ARG URL="https://dl.djicdn.com/downloads/dji_thermal_sdk/20220523/dji_thermal_sdk_v1.3_20220517.zip"
+
 COPY <<"EOF1" /tmp/diff.patch
 diff -Naur dji_thermal_sdk_v1.3_20220517/sample/dji_ircm.cpp dji_thermal_sdk_v1.3_20220517_patched/sample/dji_ircm.cpp
 --- dji_thermal_sdk_v1.3_20220517/sample/dji_ircm.cpp	2022-05-17 19:38:50.000000000 +1000
@@ -19,8 +20,8 @@ RUN apt-get update
 RUN apt-get -y install bash wget unzip cmake patch imagemagick exiftool
 
 RUN <<"EOF2"
-mkdir -p /usr/src/djithermal
-cd /usr/src/djithermal
+mkdir -p /app/djithermal
+cd /app/djithermal
 wget "$URL" -O dji_thermal_sdk.zip
 unzip dji_thermal_sdk.zip
 patch -s -p1 < /tmp/diff.patch
