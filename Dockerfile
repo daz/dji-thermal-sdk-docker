@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 FROM gcc:12
 
 ARG URL="https://dl.djicdn.com/downloads/dji_thermal_sdk/20220523/dji_thermal_sdk_v1.3_20220517.zip"
