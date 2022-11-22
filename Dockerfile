@@ -1,12 +1,12 @@
 # syntax=docker/dockerfile:1
-FROM gcc:12
+FROM --platform=linux/amd64 ubuntu:22.04
 
-ARG URL="https://dl.djicdn.com/downloads/dji_thermal_sdk/20220523/dji_thermal_sdk_v1.3_20220517.zip"
+ARG URL="https://dl.djicdn.com/downloads/dji_thermal_sdk/20221108/dji_thermal_sdk_v1.4_20220929.zip"
 
 COPY <<"EOF1" /tmp/diff.patch
-diff -Naur dji_thermal_sdk_v1.3_20220517/sample/dji_ircm.cpp dji_thermal_sdk_v1.3_20220517_patched/sample/dji_ircm.cpp
---- dji_thermal_sdk_v1.3_20220517/sample/dji_ircm.cpp	2022-05-17 19:38:50.000000000 +1000
-+++ dji_thermal_sdk_v1.3_20220517_patched/sample/dji_ircm.cpp	2022-06-12 00:09:54.000000000 +1000
+diff -Naur dji_thermal_sdk_v1.4_20220929/sample/dji_ircm.cpp dji_thermal_sdk_v1.4_20220929_patched/sample/dji_ircm.cpp
+--- dji_thermal_sdk_v1.4_20220929/sample/dji_ircm.cpp	2022-09-29 06:47:04
++++ dji_thermal_sdk_v1.4_20220929_patched/sample/dji_ircm.cpp	2022-11-19 02:02:36
 @@ -29,6 +29,7 @@
  #include <iterator>
  #include <vector>
@@ -18,7 +18,7 @@ diff -Naur dji_thermal_sdk_v1.3_20220517/sample/dji_ircm.cpp dji_thermal_sdk_v1.
 EOF1
 
 RUN apt-get update
-RUN apt-get -y install bash wget unzip cmake patch imagemagick exiftool
+RUN apt-get -y install wget unzip cmake libc6-dev-i386 g++-multilib patch imagemagick exiftool
 
 RUN <<"EOF2"
 mkdir -p /app/djithermal
@@ -28,6 +28,6 @@ unzip dji_thermal_sdk.zip
 patch -s -p1 < /tmp/diff.patch
 chmod +x sample/build.sh
 ./sample/build.sh
-cp tsdk-core/lib/linux/release_x64/*.so /usr/lib
+cp sample/build/Release_x64/*.so /usr/lib
 cp sample/build/Release_x64/dji_* /usr/bin
 EOF2
