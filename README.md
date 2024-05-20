@@ -1,13 +1,19 @@
 # DJI Thermal SDK Docker image
 
-![](https://img.shields.io/badge/version-v1.4-red.svg)
+![](https://img.shields.io/badge/version-v1.7-red.svg)
 
 Dockerized [DJI Thermal SDK](https://www.dji.com/downloads/softwares/dji-thermal-sdk), which includes example tools for processing and measuring some DJI thermal images.
 
 ## Installation
 
 ```sh
-docker build -t djithermal .                        
+docker build -t djithermal .
+```
+
+If you're on a different architecture, eg Apple Silicon, you might need to specify the platform.
+
+```sh
+docker build --platform linux/amd64 -t djithermal .
 ```
 
 ## Commands
@@ -22,21 +28,24 @@ docker run -i \
 
 ```sh
 docker run -i \
-  -v "$(pwd)":"$(pwd)" -w "$(pwd)" \
+  -v "$(pwd):/work" -w /work \
   djithermal \
-  dji_irp -a process \
-    --palette iron_red \
-    --colorbar on,40,25 \
-    --source /app/djithermal/dataset/M30T/DJI_0001_R.JPG \
-    --output process.rgb
-convert -depth 8 -size 640x512 RGB:process.rgb process.jpg
+  /bin/sh -c '
+    export i=/app/djithermal/dataset/H30T/DJI_0001_R.JPG
+    dji_irp -a process \
+      --palette iron_red \
+      --colorbar on,40,10 \
+      --source $i \
+      --output process.rgb
+    export resolution=$(identify -format "%wx%h" "$i")
+    convert -depth 8 -size $resolution RGB:process.rgb process.jpg'
 ```
 
 ## Extract a raw float32 thermal
 
 ```sh
 docker run -i \
-  -v "$(pwd)":"$(pwd)" -w "$(pwd)" \
+  -v "$(pwd):/work" -w /work \
   djithermal \
   dji_irp -a measure \
     --measurefmt float32 \
@@ -52,7 +61,7 @@ docker run -i \
 
 ```sh
 docker run -i \
-  -v "$(pwd)":"$(pwd)" -w "$(pwd)" \
+  -v "$(pwd):/work" -w /work \
   djithermal \
   /bin/sh -c 'mkdir -p process && mkdir -p raw
   for i in *.JPG; do
@@ -61,7 +70,8 @@ docker run -i \
       --colorbar on,44,0 \
       --source "$i" \
       --output "$(pwd)/process/$(basename $i .JPG).rgb"
-    convert -depth 8 -size 640x512 \
+    resolution=$(identify -format "%wx%h" "$i")
+    convert -depth 8 -size $resolution \
       RGB:"$(pwd)/process/$(basename $i .JPG).rgb" \
       "$(pwd)/process/$(basename $i)"
     rm "$(pwd)/process/$(basename $i .JPG).rgb"
