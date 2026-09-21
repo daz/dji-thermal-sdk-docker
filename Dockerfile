@@ -21,6 +21,6 @@ RUN dos2unix sample/build.sh
 RUN sh sample/build.sh
 
 # Copy executables and libraries to system paths
-RUN cp /app/djithermal/sample/build/Release_x64/dji_* /bin && \
-    cp /app/djithermal/sample/build/Release_x64/*.so /lib && \
-    cp /app/djithermal/tsdk-core/lib/linux/release_x64/* /lib
+RUN cp sample/build/Release_x64/dji_* /bin && \
+    cp sample/build/Release_x64/*.so /lib && \
+    cp tsdk-core/lib/linux/release_x64/* /lib
