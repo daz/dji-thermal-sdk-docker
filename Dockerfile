@@ -1,15 +1,26 @@
 # syntax=docker/dockerfile:1
+
 FROM ubuntu:22.04
 
-ARG URL="https://terra-1-g.djicdn.com/2640963bcd8e45c0a4f0cb9829739d6b/TSDK/v1.8(16.1)/dji_thermal_sdk_v1.8_20250829.zip"
+ARG URL="https://terra-1-g.djicdn.com/2640963bcd8e45c0a4f0cb9829739d6b/TSDK/v1.9/dji_thermal_sdk_v1.9_20260526.zip"
 
-RUN apt-get update && \
-    apt-get -y install wget unzip cmake build-essential dos2unix imagemagick exiftool
+RUN apt-get update \
+    && apt-get install -y \
+        build-essential \
+        cmake \
+        dos2unix \
+        exiftool \
+        imagemagick \
+        unzip \
+        wget \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app/djithermal
 
-RUN wget "$URL" -O dji_thermal_sdk.zip && \
-    unzip dji_thermal_sdk.zip
+RUN wget "$URL" -O dji_thermal_sdk.zip \
+    && unzip dji_thermal_sdk.zip -d /tmp/dji-thermal-sdk \
+    && cp -a /tmp/dji-thermal-sdk/dji_thermal_sdk_*/. . \
+    && rm -rf /tmp/dji-thermal-sdk
 
 # Don't build 32-bit
 RUN rm -rf tsdk-core/lib/linux/debug_x86 \
