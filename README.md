@@ -1,6 +1,6 @@
 # DJI Thermal SDK Docker image
 
-![](https://img.shields.io/badge/version-v1.8-red.svg)
+![](https://img.shields.io/badge/version-v1.9-red.svg)
 
 Dockerized [DJI Thermal SDK](https://www.dji.com/downloads/softwares/dji-thermal-sdk), which includes example tools for processing and measuring some DJI thermal images.
 
